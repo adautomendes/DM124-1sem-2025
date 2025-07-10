@@ -1,3 +1,3 @@
 const nome = 'Adauto';
 
-console.log(`"Meu nome é ${nome}"`);
+console.log(`"Meu nome é ${nome}..."`);
