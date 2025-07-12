@@ -18,13 +18,6 @@ module.exports = {
             return res.status(200).json(petExistente);
         }
 
-        if (idade < 0 || idade > 200) {
-            return res.status(400).json({
-                codigo: 'PET0001',
-                msg: 'Idade do pet inválida.'
-            });
-        }
-
         const petCriado = await Pet.create({
             nome: nome,
             raca: raca,
@@ -53,5 +46,18 @@ module.exports = {
         }
 
         return res.status(200).json(petList);
+    },
+
+    validaPet(req, res, next) {
+        const { idade } = req.body;
+
+        if (idade < 0 || idade > 100) {
+            return res.status(400).json({
+                codigo: 'PET0001',
+                msg: 'Idade do pet inválida.'
+            });
+        } else {
+            next();
+        }
     }
 }
