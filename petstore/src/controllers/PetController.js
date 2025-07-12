@@ -18,6 +18,13 @@ module.exports = {
             return res.status(200).json(petExistente);
         }
 
+        if (idade < 0 || idade > 200) {
+            return res.status(400).json({
+                codigo: 'PET0001',
+                msg: 'Idade do pet inválida.'
+            });
+        }
+
         const petCriado = await Pet.create({
             nome: nome,
             raca: raca,

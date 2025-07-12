@@ -9,7 +9,7 @@ app.use(express.json());
 
 app.use(routes);
 
-const porta = 3000;
+const porta = process.env.PORTA || 3000;
 
 mongoose.connect(database.DB_URL, database.DB_SETTINGS)
     .then(() => console.log('Conectado ao MongoDB.'))
