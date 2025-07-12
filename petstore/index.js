@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const morgan = require('morgan')
 const routes = require('./routes');
 const database = require('./src/database/config');
 require('dotenv').config();
@@ -7,6 +8,12 @@ require('dotenv').config();
 const app = express();
 
 app.use(express.json());
+
+if (process.env.NODE_ENV === 'dev') {
+    app.use(morgan('common'));
+} else {
+    app.use(morgan('tiny'));
+}
 
 app.use(routes);
 

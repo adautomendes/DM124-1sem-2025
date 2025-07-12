@@ -15,11 +15,9 @@ module.exports = {
 
         axios.post(request.url, request.data, request.config)
             .then(res => {
-                console.log('Token OK!');
                 next();
             })
             .catch(erro => {
-                console.log('Token inválido!');
                 return res.status(erro.response.status).json({ erro });
             });
     }

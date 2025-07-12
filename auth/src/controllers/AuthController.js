@@ -26,8 +26,6 @@ module.exports = {
         const { token } = req.headers;
 
         if (token) {
-            console.log(`Validando token ${token.slice(0, 10)}...`);
-
             jwt.verify(token, process.env.CHAVE_PRIVADA, (erro, decoded) => {
                 if (erro) {
                     return res.status(401).json({
@@ -38,7 +36,7 @@ module.exports = {
                     });
                 } else {
                     return res.status(200).json({
-                        decoded,
+                        user: decoded.user,
                         token
                     });
                 }
