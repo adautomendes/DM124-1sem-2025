@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan')
 const routes = require('./routes');
 const database = require('./src/database/config');
-require('dotenv').config();
+require('dotenv').config({ quiet: true });
 
 const app = express();
 
