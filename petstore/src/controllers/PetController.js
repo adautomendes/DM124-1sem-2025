@@ -21,7 +21,7 @@ module.exports = {
         const petCriado = await Pet.create({
             nome: nome,
             raca: raca,
-            idade, idade
+            idade: idade
         });
 
         return res.status(201).json(petCriado);
