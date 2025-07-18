@@ -1,7 +1,7 @@
 const express = require('express');
-const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
+const morgan = require('morgan');
 const routes = require('./routes');
 require('dotenv').config({ quiet: true });
 
@@ -30,8 +30,8 @@ if (process.env.NODE_ENV === 'dev') {
 
 app.use(routes);
 
-const porta = process.env.PORTA || 3001;
+const porta = process.env.PORTA || 3002;
 
 app.listen(porta, function() {
-    console.log(`Auth rodando na porta ${porta}`);
+    console.log(`Monitor rodando na porta ${porta}`);
 });

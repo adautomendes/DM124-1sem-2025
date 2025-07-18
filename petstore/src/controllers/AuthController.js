@@ -18,7 +18,14 @@ module.exports = {
                 next();
             })
             .catch(erro => {
-                return res.status(erro.response.status).json({ erro });
+                if (erro.response) {
+                    return res.status(erro.response.status).json(erro.response.data);
+                } else {
+                    return res.status(503).json({
+                        codigo: 'PET0003',
+                        msg: 'Não foi possível validar o token no serviço Auth.'
+                    });
+                }
             });
     }
 }

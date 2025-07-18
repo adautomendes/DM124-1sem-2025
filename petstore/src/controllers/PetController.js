@@ -27,25 +27,43 @@ module.exports = {
         return res.status(201).json(petCriado);
     },
 
+    async atualizar(req, res) {
+        const { nome } = req.params;
+        const { idade } = req.body;
+
+        // UPDATE Pet SET idade = XX WHERE NOME = XX
+        const resUpdate = await Pet.updateOne({ nome }, { idade });
+
+        if (resUpdate.modifiedCount === 1) {
+            const petAtualizado = await Pet.find({ nome });
+            return res.status(200).json(petAtualizado[0]);
+        } else {
+            return res.status(404).json({
+                codigo: 'PET0002',
+                msg: `Pet com nome '${nome} não encontrado.`
+            });
+        }
+    },
+
     /**
     GET http://localhost:3000/pet
     */
     async buscar(req, res) {
-        const { nome, raca } = req.query;
-
         // Spread operator
-        let petList = [];
-        if (nome && raca) {
-            petList = await Pet.find({ nome, raca });
-        } else if (nome) {
-            petList = await Pet.find({ nome });
-        } else if (raca) {
-            petList = await Pet.find({ raca });
-        } else {
-            petList = await Pet.find();
-        }
+        let queryParams = { ...req.query };
+        let petList = await Pet.find(queryParams);
 
-        return res.status(200).json(petList);
+        return res.status(200).json({
+            count: petList.length,
+            petList
+        });
+    },
+
+    async excluir(req, res) {
+        const { nome } = req.params;
+
+        await Pet.deleteOne({ nome });
+        return res.status(204).json();
     },
 
     validaPet(req, res, next) {

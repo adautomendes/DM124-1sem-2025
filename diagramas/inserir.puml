@@ -1,0 +1,13 @@
+@startuml
+
+actor User
+database MongoDB
+
+User --> Petstore: POST /pet
+Petstore --> Auth: POST /auth/validaToken
+Auth --> Petstore: Token válido
+Petstore --> MongoDB : INSERT Pet
+MongoDB --> Petstore: Ok
+Petstore --> User: 201 Created
+
+@enduml

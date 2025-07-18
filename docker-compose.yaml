@@ -24,7 +24,7 @@ services:
       - PORTA=3001
       - CHAVE_PRIVADA=UmaChaveBemGrandeParaDificultarODecode
       - TEMPO_EXP=1d
-      - NODE_ENV=prod
+      - NODE_ENV=dev
 
   petstore:
     build:
@@ -44,7 +44,7 @@ services:
       - MONGODB_PORT=27017
       - MONGODB_NAME=petstore
       - AUTH_SERVER=auth:3001
-      - NODE_ENV=prod
+      - NODE_ENV=dev
     
 
 networks:

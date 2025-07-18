@@ -13,6 +13,8 @@ const petRouter = express.Router();
 rootRouter.use('/pet', AuthController.verificaJWT, petRouter);
 
 petRouter.post('/', PetController.validaPet, PetController.inserir);
+petRouter.patch('/:nome', PetController.validaPet, PetController.atualizar);
 petRouter.get('/', PetController.buscar);
+petRouter.delete('/:nome', PetController.excluir);
 
 module.exports = rootRouter;
