@@ -40,7 +40,7 @@ module.exports = {
         } else {
             return res.status(404).json({
                 codigo: 'PET0002',
-                msg: `Pet com nome '${nome} não encontrado.`
+                msg: `Pet com nome '${nome}' não encontrado.`
             });
         }
     },
@@ -62,8 +62,18 @@ module.exports = {
     async excluir(req, res) {
         const { nome } = req.params;
 
-        await Pet.deleteOne({ nome });
-        return res.status(204).json();
+        let petList = await Pet.find({ nome });
+
+        if (petList.length > 0) {
+            await Pet.deleteOne({ nome });
+            return res.status(204).json();
+        } else {
+            return res.status(404).json({
+                codigo: 'PET0002',
+                msg: `Pet com nome '${nome}' não encontrado.`
+            });
+        }
+
     },
 
     validaPet(req, res, next) {

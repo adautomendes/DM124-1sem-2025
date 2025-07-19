@@ -7,6 +7,11 @@ database MongoDB
 
 User -> Petstore: POST /pet
 Petstore -> Auth: POST /auth/validaToken
+
+alt Token inválido
+    Petstore -> User: 401 Unauthorized
+end
+
 Auth -> Petstore: Token válido
 Petstore -> Petstore: validaPet
 

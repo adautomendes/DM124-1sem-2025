@@ -21,10 +21,29 @@ services:
     networks:
       - dm124-network
     environment:
+      - APP_NAME=auth
       - PORTA=3001
       - CHAVE_PRIVADA=UmaChaveBemGrandeParaDificultarODecode
       - TEMPO_EXP=1d
-      - NODE_ENV=dev
+      - NODE_ENV=prod
+
+  monitor:
+    build:
+      dockerfile: ./Dockerfile
+      context: ./monitor
+    container_name: "dm124-monitor"
+    ports:
+      - "3002:3002"
+    networks:
+      - dm124-network
+    depends_on:
+      - auth
+    environment:
+      - APP_NAME=monitor
+      - PORTA=3002
+      - SKIP_AUTH=petstore
+      - AUTH_SERVER=auth:3001
+      - NODE_ENV=prod
 
   petstore:
     build:
@@ -38,13 +57,16 @@ services:
     depends_on:
       - mongo-db
       - auth
+      - monitor
     environment:
+      - APP_NAME=petstore
       - PORTA=3000
       - MONGODB_HOST=mongo-db
       - MONGODB_PORT=27017
       - MONGODB_NAME=petstore
       - AUTH_SERVER=auth:3001
-      - NODE_ENV=dev
+      - MONITOR_SERVER=monitor:3002
+      - NODE_ENV=prod
     
 
 networks:

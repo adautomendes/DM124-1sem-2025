@@ -8,34 +8,18 @@ const alarmeMap = {
 }
 
 module.exports = {
-    ativar(req, res) {
-        const { id } = req.params;
+    alterar(req, res) {
+        const { id, acao } = req.params;
 
-        if (!alarmeMap[id]) {
-            return res.status(404).json({
-                codigo: 'MON0001',
-                msg: 'Alarme não encontrado'
-            });
+        if (acao === 'ativar') {
+            alarmeMap[id].ativo = true;
+            alarmeMap[id].ativacoes.push(new Date());
         }
 
-        alarmeMap[id].ativo = true;
-        alarmeMap[id].ativacoes.push(new Date());
-
-        return res.status(200).json(alarmeMap[id]);
-    },
-
-    desativar(req, res) {
-        const { id } = req.params;
-
-        if (!alarmeMap[id]) {
-            return res.status(404).json({
-                codigo: 'MON0001',
-                msg: 'Alarme não encontrado'
-            });
+        if (acao === 'desativar') {
+            alarmeMap[id].ativo = false;
+            alarmeMap[id].ativacoes = [];
         }
-
-        alarmeMap[id].ativo = false;
-        alarmeMap[id].ativacoes = [];
 
         return res.status(200).json(alarmeMap[id]);
     },
@@ -51,5 +35,18 @@ module.exports = {
         }
 
         return res.status(200).json(Object.values(alarmeMap));
+    },
+
+    validaAlarme(req, res, next) {
+        const { id } = req.params;
+
+        if (!alarmeMap[id]) {
+            return res.status(404).json({
+                codigo: 'MON0001',
+                msg: 'Alarme não encontrado'
+            });
+        } else {
+            next();
+        }
     }
 }

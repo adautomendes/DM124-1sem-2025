@@ -1,5 +1,6 @@
 const express = require('express');
 const AlarmeController = require('./src/controllers/AlarmeController');
+const AuthController = require('./src/controllers/AuthController');
 const rootRouter = express.Router();
 
 // http://localhost:3000/
@@ -9,10 +10,9 @@ rootRouter.get('/', function(req, res) {
 
 const alarmeRouter = express.Router();
 
-rootRouter.use('/alarme',alarmeRouter);
+rootRouter.use('/alarme', alarmeRouter);
 
-alarmeRouter.post('/:id/ativar', AlarmeController.ativar);
-alarmeRouter.post('/:id/desativar', AlarmeController.desativar);
-alarmeRouter.get('/', AlarmeController.buscar);
+alarmeRouter.patch('/:id/:acao', AuthController.verificaAPP, AlarmeController.validaAlarme, AlarmeController.alterar);
+alarmeRouter.get('/', AuthController.verificaJWT, AlarmeController.buscar);
 
 module.exports = rootRouter;

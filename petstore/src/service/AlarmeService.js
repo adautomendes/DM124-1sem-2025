@@ -5,10 +5,14 @@ module.exports = {
         let request = {
             url: `http://${process.env.MONITOR_SERVER}/alarme/${alarmeId}/${acao}`,
             data: {},
-            config: {}
+            config: {
+                headers: {
+                    app: `${process.env.APP_NAME}`
+                }
+            }
         };
 
-        axios.post(request.url, request.data, request.config)
+        axios.patch(request.url, request.data, request.config)
             .then(res => {
                 console.log(`Alarme ${alarmeId}: ${acao}`);
             })
